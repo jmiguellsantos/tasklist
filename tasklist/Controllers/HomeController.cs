@@ -61,5 +61,76 @@ namespace tasklist.Controllers
 
             return View(tarefas);
         }
+
+
+        public IActionResult Adicionar()
+        {
+            ViewBag.Categorias = _context.Categorias.ToList();
+            ViewBag.Status = _context.Statuses.ToList();
+
+            var tarefa = new Tarefa { StatusId = "aberto" };
+
+            return View(tarefa);
+        }
+
+        [HttpPost]
+        public IActionResult Filtrar(string[] filtro)
+        {
+            string id = string.Join('-', filtro);
+            return RedirectToAction("Index", new { ID = id });
+        }
+
+        [HttpPost]
+        public IActionResult MarcarCompleto([FromRoute] string id, Tarefa tarefaSelecionada)
+        {
+
+            tarefaSelecionada = _context.Tarefas.Find(tarefaSelecionada.Id);
+
+            if (tarefaSelecionada != null)
+            {
+                tarefaSelecionada.StatusId = "completo";
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index", new { ID = id });
+
+        }
+
+        [HttpPost]
+        public IActionResult Adicionar(Tarefa tarefa)
+        {
+            if (ModelState.IsValid)
+            {
+
+                _context.Tarefas.Add(tarefa);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+
+            }
+            else
+            {
+                ViewBag.Categorias = _context.Categorias.ToList();
+                ViewBag.Status = _context.Statuses.ToList();
+
+                return View(tarefa);
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult DeletarCompletos(string id)
+        {
+            var paraDeletar = _context.Tarefas.Where(s => s.StatusId == "completo").ToList();
+
+            foreach (var tarefa in paraDeletar)
+            {
+                _context.Tarefas.Remove(tarefa);
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", new { ID = id });
+        }
     }
 }

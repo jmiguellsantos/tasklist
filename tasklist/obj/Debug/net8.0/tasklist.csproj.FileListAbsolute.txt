@@ -134,3 +134,4 @@ C:\Users\Gateway\Desktop\João Miguel\tasklist\tasklist\obj\Debug\net8.0\refint\
 C:\Users\Gateway\Desktop\João Miguel\tasklist\tasklist\obj\Debug\net8.0\tasklist.pdb
 C:\Users\Gateway\Desktop\João Miguel\tasklist\tasklist\obj\Debug\net8.0\tasklist.genruntimeconfig.cache
 C:\Users\Gateway\Desktop\João Miguel\tasklist\tasklist\obj\Debug\net8.0\ref\tasklist.dll
+C:\Users\Gateway\Desktop\João Miguel\tasklist\tasklist\obj\Debug\net8.0\tasklist.sourcelink.json
