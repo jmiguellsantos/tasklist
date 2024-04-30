@@ -5,7 +5,7 @@ using tasklist.Data;
 using tasklist.Models;
 using Xunit;
 
-namespace tasklist.Tests
+namespace tasklist.Tests.Controllers
 {
     public class HomeControllerTests
     {
@@ -18,6 +18,7 @@ namespace tasklist.Tests
 
             using (var context = new AppDbContext(options))
             {
+                context.Database.EnsureDeleted();
                 context.Categorias.Add(new Categoria { CategoriaId = "1", Nome = "Categoria Teste" });
                 context.Statuses.Add(new Status { StatusId = "aberto", Nome = "Aberto" });
                 context.Tarefas.Add(new Tarefa { Id = 1, Descricao = "Tarefa de teste", CategoriaId = "1", StatusId = "aberto", DataDeVencimento = DateTime.Today });
@@ -36,7 +37,7 @@ namespace tasklist.Tests
                 Assert.NotNull(result.ViewData["Categorias"]);
                 Assert.NotNull(result.ViewData["Status"]);
                 Assert.NotNull(result.ViewData["VencimentoValores"]);
-                Assert.NotNull(model); 
+                Assert.NotNull(model);
                 Assert.True(model.Count > 0);
             }
         }
@@ -156,12 +157,9 @@ namespace tasklist.Tests
                 context.Categorias.Add(new Categoria { CategoriaId = "1", Nome = "Categoria Teste" });
                 context.Statuses.Add(new Status { StatusId = "aberto", Nome = "Aberto" });
                 context.SaveChanges();
-            }
 
-            var tarefa = new Tarefa { Descricao = "", DataDeVencimento = DateTime.Today, CategoriaId = "1", StatusId = "aberto" };
+                var tarefa = new Tarefa { Descricao = "", DataDeVencimento = DateTime.Today, CategoriaId = "1", StatusId = "aberto" };
 
-            using (var context = new AppDbContext(options))
-            {
                 var controller = new HomeController(context);
                 controller.ModelState.AddModelError("Descricao", "Preencha a descrição!");
 
